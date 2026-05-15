@@ -42,6 +42,7 @@ dependencies = [
     "duckduckgo-search>=7.0.0",
     # Default provider (Anthropic / Claude)
     "anthropic>=0.83.0",
+    "openai>=2.23.0",
 ]
 
 [project.optional-dependencies]

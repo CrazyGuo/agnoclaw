@@ -1,4 +1,4 @@
-default_model = "MiniMax-M2.5"
+default_model = "MiniMax-M2.7"
 default_provider = "minimax"
 
 [storage]

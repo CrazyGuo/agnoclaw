@@ -201,7 +201,7 @@ def _run_output_is_error(value: Any) -> bool:
     return _run_output_status_value(value) == "error"
 
 
-def _resolve_model(model: str | None, provider: str | None, config: HarnessConfig) -> str:
+def _resolve_model(model: str | None, provider: str | None, config: HarnessConfig) -> Any:
     """
     Return an Agno-compatible 'provider:model_id' string.
 
@@ -214,6 +214,11 @@ def _resolve_model(model: str | None, provider: str | None, config: HarnessConfi
     """
     model_str = model or config.default_model
     prov = provider or config.default_provider
+
+    from .model_factory import resolve_custom_model
+    custom_model = resolve_custom_model(model_str, prov, config)
+    if custom_model is not None:
+        return custom_model
 
     # If the model string looks like "x:y", it may be either:
     #   1) provider:model_id (e.g. openai:gpt-4o), or

@@ -1,0 +1,8 @@
+default_model = "MiniMax-M2.5"
+default_provider = "minimax"
+
+[storage]
+backend = "sqlite"
+
+[heartbeat]
+enabled = false

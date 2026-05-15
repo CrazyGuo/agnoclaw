@@ -143,6 +143,19 @@ class ChatLog(VerticalScroll):
         )
         self.scroll_end(animate=False)
 
+    def add_history_assistant_message(self, text: str) -> None:
+        """Display an assistant message from history (no streaming, rendered as Markdown)."""
+        label = Static("Agent", classes="agent-label", id=self._next_id("al"))
+        msg_body = Static(text, classes="message-text", id=self._next_id("am"))
+        self.mount(label)
+        if text.strip():
+            try:
+                msg_body.update(RichMarkdown(text))
+            except Exception:
+                pass
+        self.mount(msg_body)
+        self.scroll_end(animate=False)
+
     def clear_log(self) -> None:
         """Clear all content from the chat log."""
         self.query("Static").remove()

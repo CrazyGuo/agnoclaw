@@ -120,6 +120,7 @@ class AgnoClawApp(App):
                 pass  # Fall back to default theme
 
         self._agent_driver.start_heartbeat()
+        self._load_chat_history()
         self.query_one("#input-bar", InputBar).focus()
 
     # ── User input handling ───────────────────────────────────────────────────
@@ -213,6 +214,21 @@ class AgnoClawApp(App):
             return
 
         chat.add_notification(f"Unknown command: {cmd}", style="red")
+
+    def _load_chat_history(self) -> None:
+        """Load prior session messages from storage into ChatLog."""
+        chat = self.query_one("#chat-log", ChatLog)
+        try:
+            history = self._agent.get_chat_history()
+            for msg in history:
+                role = msg.get("role", "")
+                content = msg.get("content", "") or ""
+                if role == "user":
+                    chat.add_user_message(content)
+                elif role == "assistant" and content:
+                    chat.add_history_assistant_message(content)
+        except Exception:
+            pass  # 历史加载失败不影响启动
 
     # ── Stream event handlers ─────────────────────────────────────────────────
 
